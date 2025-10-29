@@ -3,12 +3,6 @@
 Guida passo passo per creare un container ottimizzato per Docker.
 
 
-
-✅ FASE 1 — Creazione Container LXC in Proxmox
-
-📌 Incolla questo contenuto in docs/container.md
-(se non esiste ancora il file → crealo tu)
-
 Creazione del Container LXC per Nextcloud
 
 Questa guida descrive la creazione del container LXC tramite GUI Proxmox.
