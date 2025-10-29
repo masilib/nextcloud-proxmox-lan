@@ -1,44 +1,60 @@
-# Creazione del Container su Proxmox
+# Configurazione Container LXC per Nextcloud
 
-Guida passo passo per creare un container ottimizzato per Docker.
+Questa guida descrive la configurazione di un container LXC su Proxmox per ospitare Nextcloud in una rete locale (LAN).
 
+---
 
-Creazione del Container LXC per Nextcloud
+## Parametri del Container
 
-Questa guida descrive la creazione del container LXC tramite GUI Proxmox.
+| Parametro | Valore consigliato |
+|----------|-------------------|
+| Nome | `nextcloud-server` |
+| VMTYPE | Container |
+| Privilegi | ✅ Non privilegiato |
+| OS | Alpine Linux |
+| CPU | 2 core |
+| RAM | 4 GB |
+| Storage | 32 GB (o più) |
+| Firewall | ❌ Disattivato |
+| Features | `nesting=1` |
 
-Parametri del Container
-Parametro	Valore
-Nome	nextcloud-server
-Tipo	Container non privilegiato
-OS	Alpine Linux (versione stabile)
-CPU	2 core
-RAM	4 GB (consigliato)
-Storage	32 GB (minimo consigliato)
-Networking	Statico su LAN locale
-Firewall	❌ Disattivato
-Abilitare il Nesting
+---
 
-📍 Necessario per Docker dentro LXC
+## Abilitazione Nesting (obbligatorio per Docker)
 
-Da shell Proxmox (host):
+Da shell di Proxmox (host):
 
+```bash
 pct set <ID> -features nesting=1
+```
 
+> 🔁 Sostituire `<ID>` con l’ID reale del container, es: `pct set 105 -features nesting=1`
 
-Sostituire <ID> con l’ID del container, es: pct set 105 -features nesting=1
+---
 
-Avvio del Container
+## Avvio del Container
+
+```bash
 pct start <ID>
 pct console <ID>
+```
 
-Post-installazione base
+---
 
-Aggiornamento pacchetti:
+## Aggiornamento dei pacchetti
 
+Dentro il container:
+
+```bash
 apk update && apk upgrade
+```
 
+---
 
-Installazione strumenti utili:
+## Installazione utilità base
 
+```bash
 apk add nano vim bash curl wget htop
+```
+
+✅ Pronto per installare Docker
