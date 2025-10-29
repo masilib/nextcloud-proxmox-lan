@@ -4,7 +4,7 @@ Questa guida mostra come installare Pi-hole in un container Docker per gestire i
 
 ---
 
-## 1️⃣ Prerequisiti
+## Prerequisiti
 
 - Container Alpine Linux con Docker e Docker Compose già installati
 - Rete locale configurata (LAN)
@@ -13,7 +13,7 @@ Questa guida mostra come installare Pi-hole in un container Docker per gestire i
 
 ---
 
-## 2️⃣ Creare cartella di lavoro
+## Creare cartella di lavoro
 
 ```bash
 mkdir -p pihole
@@ -24,7 +24,7 @@ cd pihole
 
 ---
 
-## 3️⃣ Creare il file `docker-compose.yml`
+## Creare il file `docker-compose.yml`
 
 ```bash
 nano docker-compose.yml
@@ -82,9 +82,29 @@ docker network create \
   lanufficio
 ```
 
+**Spiegazione dei parametri:**
+
+| Opzione | Significato |
+|---------|-------------|
+| `--driver=bridge` | Tipo di rete interna Docker (bridge) |
+| `--subnet=172.23.0.0/24` | Subnet privata per i container |
+| `lanufficio` | Nome della rete, da usare nel docker-compose |
+
+> L’IP statico del container Pi-hole (`172.23.0.100`) deve stare all’interno di questa subnet.
+
 ---
 
-## 4️⃣ Avviare Pi-hole
+### Controllare la rete creata
+
+```bash
+docker network inspect lanufficio
+```
+
+- Controlla che la subnet sia corretta e pronta all’uso
+
+---
+
+## Avviare Pi-hole
 
 ```bash
 docker-compose up -d
@@ -95,7 +115,7 @@ docker-compose up -d
 
 ---
 
-## 5️⃣ Accesso all'interfaccia web
+## Accesso all'interfaccia web
 
 Apri il browser su:
 
@@ -108,7 +128,7 @@ http://192.168.1.80:8089
 
 ---
 
-## 6️⃣ Note importanti
+## Note importanti
 
 - Per utilizzare Pi-hole come DNS della rete, configura il router o i client LAN con IP del container `192.168.1.80`  
 - Cambia sempre la password predefinita (`WEBPASSWORD`)  
@@ -120,3 +140,13 @@ docker-compose up -d
 ```
 
 - Assicurati di avere Docker Compose aggiornato e la rete esterna `lanufficio` correttamente configurata.
+
+## Perché gestire la rete con Pi-hole?
+
+- **DNS locale centralizzato**: tutti i dispositivi della LAN possono usare Pi-hole come DNS principale  
+- **Filtraggio pubblicità e tracker**: blocca automaticamente ads e tracker su tutta la rete  
+- **Gestione domini locali**: puoi creare record DNS locali per container o server interni (es. `nextcloud.lan`)  
+- **Statistiche e monitoraggio**: Pi-hole fornisce report su richieste DNS, dispositivi e domini visitati  
+- **Facilità di configurazione**: cambiando il DNS del router o dei client, tutti beneficiano del filtraggio e della risoluzione locale senza modifiche individuali
+
+> In pratica, Pi-hole diventa il **gestore centrale della rete**, rendendo più semplice configurare e accedere ai servizi locali come Nextcloud, Portainer o altri container.
