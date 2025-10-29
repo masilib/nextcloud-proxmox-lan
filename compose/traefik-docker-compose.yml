@@ -1,0 +1,55 @@
+version: '3.8'
+
+services:
+  traefik:
+    image: traefik:v2.10
+    container_name: traefik
+    restart: unless-stopped
+
+    networks:
+      - lanufficio
+    dns:
+      - 172.23.0.100
+
+    ports:
+      - "80:80"
+      - "443:443"
+      - "8080:8080"  # Dashboard Traefik (opzionale)
+
+    volumes:
+      # Socket Docker per auto-discovery
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+
+      # Configurazione Traefik
+      - ./traefik.yml:/traefik.yml:ro
+
+      # Certificati SSL
+      - ./certs:/certs:ro
+
+      # File di configurazione dinamica
+      - ./dynamic:/dynamic:ro
+
+      # Log e dati persistenti
+      - ./acme.json:/acme.json
+
+    environment:
+      - TZ=Europe/Rome
+
+    labels:
+      # Abilita Traefik per se stesso
+      - "traefik.enable=true"
+
+      # Dashboard (opzionale)
+      - "traefik.http.routers.dashboard.rule=Host(`traefik.local`)"
+      - "traefik.http.routers.dashboard.entrypoints=websecure"
+      - "traefik.http.routers.dashboard.tls=true"
+      - "traefik.http.routers.dashboard.service=api@internal"
+
+      # Autenticazione dashboard (cambia user e password!)
+      # Genera con: htpasswd -nb admin password
+      - "traefik.http.middlewares.auth.basicauth.users=admin:$$apr1$$eqbGg5RA$$RMoGgmMqOgAxuBkYfgm820"
+      - "traefik.http.routers.dashboard.middlewares=auth"
+
+networks:
+  lanufficio:
+    external: true
