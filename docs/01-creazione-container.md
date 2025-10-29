@@ -62,10 +62,4 @@ apk add nano vim bash curl wget htop
 ➡️ Esempio file LXC pronto da usare:
 [lxc/nextcloud-server.conf](../lxc/nextcloud-server.conf)
 
-```ini
-# Configurazione container LXC...
-features: nesting=1
- unprivileged: 1
-```
-
 
