@@ -1,0 +1,47 @@
+# Configurazione API e Dashboard
+api:
+  dashboard: true
+  insecure: false
+
+# Entry Points
+entryPoints:
+  web:
+    address: ":80"
+    # Redirect HTTP -> HTTPS
+    http:
+      redirections:
+        entryPoint:
+          to: websecure
+          scheme: https
+
+  websecure:
+    address: ":443"
+    http:
+      tls: true
+
+# Provider Docker
+providers:
+  docker:
+    endpoint: "unix:///var/run/docker.sock"
+    exposedByDefault: false
+    network: desco
+
+  # File provider per configurazione dinamica
+  file:
+    directory: "/dynamic"
+    watch: true
+
+# Log
+log:
+  level: INFO
+  filePath: "/var/log/traefik.log"
+
+# Access Log (opzionale)
+accessLog:
+  filePath: "/var/log/access.log"
+
+# Certificati TLS
+tls:
+  options:
+    default:
+      minVersion: VersionTLS12
