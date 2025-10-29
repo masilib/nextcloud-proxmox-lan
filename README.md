@@ -20,8 +20,8 @@ Questa repository contiene la documentazione e i file di esempio per configurare
 
 ## Documentazione principale
 
-- [Creazione Container LXC](docs/container.md) – Configurazione container su Proxmox con Alpine Linux  
-- [Installazione Docker + Portainer](docs/docker.md) – Setup ambiente Docker e Portainer  
+- [Creazione Container LXC](docs/01-creazione-container.md) – Configurazione container su Proxmox con Alpine Linux  
+- [Installazione Docker + Portainer](docs/02-installazione-docker.md) – Setup ambiente Docker e Portainer  
 - [Nextcloud + MariaDB](docs/nextcloud.md) – Configurazione container Nextcloud con database MariaDB  
 - [Script utili](scripts/) – Script di backup, restore e gestione storage  
 
