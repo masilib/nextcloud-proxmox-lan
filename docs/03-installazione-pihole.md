@@ -125,6 +125,19 @@ http://192.168.1.80:8089
 
 - Login: password impostata in `WEBPASSWORD`  
 - Puoi configurare domini locali, blacklist, whitelist e statistiche DNS
+- Se si vuole impostare una nuova password, si puà lanciare il seguente comando direttamente dal container Docker
+```bash
+docker exec -it pihole bash
+```
+- Questo ti apre una shell dentro il container pihole
+
+- Il container verrà creato e avviato in background  
+- I dati saranno persistenti nella cartella `./pihole`
+```bash
+pihole -a -p
+```
+
+---
 
 ---
 
