@@ -33,7 +33,11 @@ docker info
 
 ## 3️⃣ Installare Docker Compose
 
-Alpine non ha sempre Docker Compose aggiornato, quindi installiamo via `pip`:
+```bash
+apk add docker-compose
+```
+
+Alpine non ha sempre Docker Compose aggiornato, eventualmente quindi installiamo via `pip`:
 
 ```bash
 python3 -m pip install --user docker-compose
@@ -42,10 +46,8 @@ python3 -m pip install --user docker-compose
 Controlla versione:
 
 ```bash
-~/.local/bin/docker-compose --version
+docker-compose --version
 ```
-
-> Puoi aggiungere `~/.local/bin` al PATH se vuoi usare `docker-compose` senza percorso completo.
 
 ---
 
