@@ -132,15 +132,11 @@ http://192.168.1.80:8089
 
 ```bash
 docker exec -it pihole bash
+pihole -a -p <nuova_password>
+exit
 ```
 - Questo ti apre una shell dentro il container pihole
 - Lanciare il comando per impostare una nuova password scelta dall’utente
-
-```bash
-pihole -a -p
-```
-
----
 
 ---
 
