@@ -28,7 +28,7 @@ Da shell di Proxmox (host):
 pct set <ID> -features nesting=1
 ```
 
-> 🔁 Sostituire `<ID>` con l’ID reale del container, es: `pct set 105 -features nesting=1`
+> 🔁 Sostituire `<ID>` con l’ID reale del container, es: `pct set 121 -features nesting=1`
 
 ---
 
@@ -58,3 +58,14 @@ apk add nano vim bash curl wget htop
 ```
 
 ✅ Pronto per installare Docker
+
+➡️ Esempio file LXC pronto da usare:
+[lxc/nextcloud-server.conf](../lxc/nextcloud-server.conf)
+
+```ini
+# Configurazione container LXC...
+features: nesting=1
+ unprivileged: 1
+```
+
+
