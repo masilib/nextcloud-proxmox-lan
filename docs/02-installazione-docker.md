@@ -1,54 +1,135 @@
-# Installazione Docker su Alpine Linux (LXC Proxmox)
+# Installazione Docker + Portainer su Alpine Linux (LXC Proxmox)
 
-Questo container LXC verrà utilizzato per ospitare Nextcloud in container Docker.
+Questa guida spiega come installare Docker su Alpine Linux e creare un container Portainer + Portainer Agent usando Docker Compose.
 
 ---
 
-## Installazione Docker
+## 1️⃣ Aggiornare Alpine e installare utilità di base 
 
 ```bash
-apk add docker docker-cli containerd
+apk update && apk upgrade
+apk add bash curl vim nano git docker docker-cli containerd py3-pip
 ```
 
 ---
 
-## Abilitare Docker all’avvio
+## 2️⃣ Abilitare Docker all'avvio e avviare il servizio
 
 ```bash
 rc-update add docker boot
 service docker start
 ```
 
----
-
-## Verifica installazione
+Verifica:
 
 ```bash
 docker version
 docker info
 ```
 
-Se mostra informazioni su client/server → ✅ installazione corretta.
+> Se mostra informazioni su client/server → ✅ installazione corretta.
 
 ---
 
-## Aggiunta utente al gruppo Docker *(consigliato)*
+## 3️⃣ Installare Docker Compose
+
+Alpine non ha sempre Docker Compose aggiornato, quindi installiamo via `pip`:
 
 ```bash
-addgroup <utente> docker
+python3 -m pip install --user docker-compose
 ```
 
-> Se non hai utenti creati → di default si lavora da `root`  
-> Puoi creare un utente se vuoi maggiore sicurezza
+Controlla versione:
+
+```bash
+~/.local/bin/docker-compose --version
+```
+
+> Puoi aggiungere `~/.local/bin` al PATH se vuoi usare `docker-compose` senza percorso completo.
 
 ---
 
-## Test veloce
-
-Esegui un container di prova:
+## 4️⃣ Creare la cartella per Docker Compose
 
 ```bash
-docker run hello-world
+mkdir -p ~/portainer
+cd ~/portainer
 ```
 
-Se ricevi un messaggio di benvenuto → tutto ok ✅
+---
+
+## 5️⃣ Creare il file `docker-compose.yml`
+
+```bash
+vim docker-compose.yml
+```
+
+Incolla dentro:
+
+```yaml
+version: "3"
+
+services:
+  portainer:
+    image: portainer/portainer-ce
+    container_name: portainer
+    restart: always
+    ports:
+      - "8000:8000"
+      - "9443:9443"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - portainer_data:/data
+
+  portainer-agent:
+    image: portainer/agent:latest
+    container_name: portainer-agent
+    restart: always
+    ports:
+      - "9001:9001"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /var/lib/docker/volumes:/var/lib/docker/volumes
+
+volumes:
+  portainer_data:
+```
+
+---
+
+## 6️⃣ Avviare i container
+
+```bash
+~/.local/bin/docker-compose up -d
+```
+
+> Questo comando creerà i container Portainer e Portainer Agent in background.
+
+---
+
+## 7️⃣ Verifica
+
+Apri il browser su:
+
+```
+https://<IP_CONTAINER>:9443
+```
+
+- Login iniziale → crea utente admin  
+- Dovresti vedere sia Portainer che l’agent collegato
+
+---
+
+## 8️⃣ Note
+
+- Portainer Agent serve a gestire più host Docker in remoto (utile se aggiungi altri container o host in futuro).  
+- I dati di Portainer sono persistenti grazie al volume `portainer_data`.  
+- Puoi arrestare o rimuovere i container in qualsiasi momento:
+
+```bash
+~/.local/bin/docker-compose down
+```
+
+---
+
+✅ Ora Docker + Portainer sono pronti all’uso su Alpine Linux.
