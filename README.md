@@ -27,46 +27,6 @@ Questa repository contiene la documentazione e i file di esempio per configurare
 
 ---
 
-## Guida rapida
-
-1. Creare un container LXC su Proxmox con:
-   - Alpine Linux
-   - Non privilegiato (`unprivileged: 1`)
-   - Nesting abilitato (`features: nesting=1`)
-2. Accedere al container e aggiornare Alpine:
-   ```bash
-   apk update && apk upgrade
-   ```
-3. Installare Docker e Docker Compose
-4. Creare la cartella per Docker Compose:
-   ```bash
-   mkdir -p ~/portainer
-   cd ~/portainer
-   ```
-5. Copiare il file `docker-compose.yml` e lanciare:
-   ```bash
-   ~/.local/bin/docker-compose up -d
-   ```
-6. Aprire il browser su `https://<IP_CONTAINER>:9443` per accedere a Portainer
-
----
-
-## Struttura dei file
-
-```
-nextcloud-proxmox-lan/
-├─ README.md
-├─ docs/
-│  ├─ container.md
-│  ├─ docker.md
-│  └─ nextcloud.md
-├─ lxc/
-├─ compose/
-└─ scripts/
-```
-
----
-
 ## Obiettivo del progetto
 
 - Creare un ambiente Nextcloud **completamente in LAN**, senza esposizione diretta a Internet  
