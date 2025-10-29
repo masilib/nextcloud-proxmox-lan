@@ -157,3 +157,113 @@ labels:
 - Dashboard per monitorare traffico e servizi  
 - Facile aggiungere nuovi servizi con poche labels Docker  
 - Integrazione con Pi-hole per DNS locale
+
+## 🔒 Certificati TLS self-signed per domini locali
+
+Per far funzionare HTTPS sui domini locali (`traefik.local`, `nextcloud.local`, `collabora.local`) possiamo generare certificati TLS self-signed e usarli con Traefik.
+
+---
+
+### Creare la cartella `certs`
+
+```bash
+mkdir -p ~/traefik/certs
+cd ~/traefik/certs
+```
+
+- Qui verranno salvati tutti i certificati e le chiavi private
+
+---
+
+### Generare i certificati con OpenSSL
+
+Sintassi generale:
+
+```bash
+openssl req -x509 -nodes -days 365 \
+  -newkey rsa:2048 \
+  -keyout <dominio>.key \
+  -out <dominio>.crt \
+  -subj "/CN=<dominio>"
+```
+
+**Spiegazione dei parametri:**
+
+| Parametro | Significato |
+|-----------|-------------|
+| `-x509` | Certificato self-signed |
+| `-nodes` | Chiave privata senza passphrase |
+| `-days 365` | Validità 1 anno |
+| `-newkey rsa:2048` | Genera chiave RSA 2048 bit |
+| `-keyout` | Nome file chiave privata |
+| `-out` | Nome file certificato |
+| `-subj` | Common Name (CN) = dominio |
+
+---
+
+### Esempio per i tuoi domini
+
+```bash
+openssl req -x509 -nodes -days 365 \
+  -newkey rsa:2048 \
+  -keyout traefik.local.key \
+  -out traefik.local.crt \
+  -subj "/CN=traefik.local"
+
+openssl req -x509 -nodes -days 365 \
+  -newkey rsa:2048 \
+  -keyout nextcloud.local.key \
+  -out nextcloud.local.crt \
+  -subj "/CN=nextcloud.local"
+
+openssl req -x509 -nodes -days 365 \
+  -newkey rsa:2048 \
+  -keyout collabora.local.key \
+  -out collabora.local.crt \
+  -subj "/CN=collabora.local"
+```
+
+---
+
+### Controllare i permessi dei file
+
+```bash
+ls -l
+```
+
+Dovresti ottenere qualcosa come:
+
+```
+-rw-r--r--  1 root root 1310 collabora.local.crt
+-rw-------  1 root root 1704 collabora.local.key
+-rw-r--r--  1 root root 1310 nextcloud.local.crt
+-rw-------  1 root root 1704 nextcloud.local.key
+-rw-r--r--  1 root root 1310 traefik.local.crt
+-rw-------  1 root root 1704 traefik.local.key
+```
+
+- `*.crt` → lettura pubblica  
+- `*.key` → accesso riservato a root  
+
+---
+
+### Aggiornare Traefik
+
+- Assicurati che il `docker-compose.yml` punti ai file nella cartella `./certs`  
+- Riavvia Traefik:
+
+```bash
+docker-compose down
+docker-compose up -d
+```
+
+- Ora Traefik serve HTTPS sui domini locali usando i certificati self-signed
+
+---
+
+### 💡 Suggerimenti
+
+- Puoi importare i `.crt` nei client LAN per evitare warning di “certificato non sicuro”  
+- Rinnova i certificati prima della scadenza (365 giorni per impostazione attuale)  
+- Questa soluzione è ottima per **LAN privata**; in produzione esterna conviene usare certificati validi Let’s Encrypt
+
