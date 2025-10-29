@@ -2,7 +2,6 @@
 
 Guida passo passo per creare un container ottimizzato per Docker.
 
-FASE 1 — Creazione Container LXC in Proxmox
 
 
 ✅ FASE 1 — Creazione Container LXC in Proxmox
