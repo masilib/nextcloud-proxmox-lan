@@ -54,8 +54,8 @@ docker-compose --version
 ## 4️⃣ Creare la cartella per Docker Compose
 
 ```bash
-mkdir -p ~/portainer
-cd ~/portainer
+mkdir -p portainer
+cd portainer
 ```
 
 ---
@@ -63,7 +63,7 @@ cd ~/portainer
 ## 5️⃣ Creare il file `docker-compose.yml`
 
 ```bash
-vim docker-compose.yml
+nano docker-compose.yml
 ```
 
 Incolla dentro:
@@ -102,7 +102,7 @@ volumes:
 ## 6️⃣ Avviare i container
 
 ```bash
-~/.local/bin/docker-compose up -d
+docker-compose up -d
 ```
 
 > Questo comando creerà i container Portainer e Portainer Agent in background.
@@ -129,7 +129,7 @@ https://<IP_CONTAINER>:9443
 - Puoi arrestare o rimuovere i container in qualsiasi momento:
 
 ```bash
-~/.local/bin/docker-compose down
+docker-compose down
 ```
 
 ---
