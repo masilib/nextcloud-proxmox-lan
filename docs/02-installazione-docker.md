@@ -8,7 +8,7 @@ Questa guida spiega come installare Docker su Alpine Linux e creare un container
 
 ```bash
 apk update && apk upgrade
-apk add bash curl vim nano git docker docker-cli containerd py3-pip
+apk add bash curl vim nano git docker docker-cli containerd py3-pip openssl
 ```
 
 ---
