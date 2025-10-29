@@ -167,8 +167,8 @@ Per far funzionare HTTPS sui domini locali (`traefik.local`, `nextcloud.local`, 
 ### Creare la cartella `certs`
 
 ```bash
-mkdir -p ~/traefik/certs
-cd ~/traefik/certs
+mkdir -p traefik/certs
+cd traefik/certs
 ```
 
 - Qui verranno salvati tutti i certificati e le chiavi private
