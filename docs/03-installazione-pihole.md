@@ -134,9 +134,8 @@ http://192.168.1.80:8089
 docker exec -it pihole bash
 ```
 - Questo ti apre una shell dentro il container pihole
+- Lanciare il comando per impostare una nuova password scelta dall’utente
 
-- Il container verrà creato e avviato in background  
-- I dati saranno persistenti nella cartella `./pihole`
 ```bash
 pihole -a -p
 ```
