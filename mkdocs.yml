@@ -1,0 +1,8 @@
+site_name: Nextcloud Proxmox LAN
+theme:
+  name: mkdocs
+nav:
+  - Home: index.md
+  - Container: 01-creazione-container.md
+  - Docker: 02-installazione-docker.md
+  - Nextcloud: 03-installazione-nextcloud.md
