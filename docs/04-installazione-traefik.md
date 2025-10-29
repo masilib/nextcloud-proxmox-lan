@@ -97,6 +97,85 @@ networks:
 | `volumes` | Persistenza configurazioni, certificati e logs |
 | `labels` | Abilita dashboard, routing e autenticazione con base auth |
 
+---
+
+## 📂 Configurazione Dinamica – `dynamic/certs.yml`
+
+Traefik utilizza una configurazione dinamica per gestire elementi che possono cambiare senza riavvio del servizio, come:
+
+✅ certificati TLS  
+✅ router aggiunti in futuro  
+✅ middleware  
+✅ configurazioni per nuovi container
+
+Per questo nel file `traefik.yml` è presente:
+
+```yaml
+providers:
+  file:
+    directory: "/dynamic"
+    watch: true
+```
+
+➡️ Traefik controllerà automaticamente i file in `/dynamic` e applicherà ogni modifica in tempo reale.
+
+---
+
+### 🔐 File `dynamic/certs.yml` – Associazione domini ↔ certificati
+
+Questo file dice a Traefik **quale certificato deve usare per ogni dominio locale**:
+
+```yaml
+tls:
+  certificates:
+    - certFile: "/certs/traefik.local.crt"
+      keyFile: "/certs/traefik.local.key"
+      stores:
+        - default
+
+    - certFile: "/certs/nextcloud.local.crt"
+      keyFile: "/certs/nextcloud.local.key"
+      stores:
+        - default
+
+    - certFile: "/certs/collabora.local.crt"
+      keyFile: "/certs/collabora.local.key"
+      stores:
+        - default
+```
+
+📌 Ogni entry:
+- `certFile`: percorso del certificato pubblico
+- `keyFile`: chiave privata
+- `stores: default`: usa lo store TLS principale
+
+✔️ In questo modo, quando un client richiede `https://nextcloud.local`,  
+Traefik risponde con **il certificato corretto**.
+
+---
+
+### ✅ Vantaggi della configurazione dinamica
+
+| Beneficio | Descrizione |
+|----------|-------------|
+| 🔄 No riavvio Traefik | Le modifiche sono applicate live |
+| ☑️ Gestione semplice | Aggiungi certificati solo aggiornando `certs.yml` |
+| 📈 Scalabilità | Aggiunta futura di altri servizi (NAS, Home Assistant, Synology Proxy, ecc.) |
+
+---
+
+✅ Riepilogo Setup Traefik
+
+| File | Ruolo |
+|------|------|
+| `traefik.yml` | Configurazione statica globale |
+| `dynamic/certs.yml` | Certificati TLS per HTTPS locale |
+| `certs/*.crt` + `*.key` | Chiavi e certificati self-signed |
+| `docker-compose.yml` | Avvio container e associa rete |
+
+---
+
+
 ## 5️⃣ Creare la rete Docker `lanufficio` (se non esiste)
 
 ```bash
