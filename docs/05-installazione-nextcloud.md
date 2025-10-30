@@ -21,7 +21,7 @@ mkdir -p nextcloud
 cd nextcloud
 ```
 
-- Salva qui il `docker-compose.yml`, `.env`
+Salva qui il `docker-compose.yml`, `.env`
 
 ---
 
