@@ -143,7 +143,8 @@ exit
 ## Note importanti
 
 - Per utilizzare Pi-hole come DNS della rete, configura il router o i client LAN con IP del container `192.168.1.80`  
-- Cambia sempre la password predefinita (`WEBPASSWORD`)  
+- Cambia sempre la password predefinita (`WEBPASSWORD`)
+- In Pi-Hole -> Settings -> DNS -> Expert impostare 'Permit all origins'  
 - Puoi aggiornare Pi-hole e il container con:
 
 ```bash
