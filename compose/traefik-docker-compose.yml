@@ -44,6 +44,7 @@ services:
       - "traefik.http.routers.dashboard.entrypoints=websecure"
       - "traefik.http.routers.dashboard.tls=true"
       - "traefik.http.routers.dashboard.service=api@internal"
+      - "traefik.docker.network=lanufficio"
 
       # Autenticazione dashboard (cambia user e password!)
       # Genera con: htpasswd -nb admin password
