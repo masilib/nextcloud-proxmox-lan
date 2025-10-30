@@ -24,7 +24,7 @@ providers:
   docker:
     endpoint: "unix:///var/run/docker.sock"
     exposedByDefault: false
-    network: desco
+    network: lanufficio
 
   # File provider per configurazione dinamica
   file:
