@@ -108,7 +108,7 @@ networks:
     external: true
 ```
 
-## 5. Collegamento con Traefik
+## 5. Verifiche
 
 Nextcloud sarà disponibile su HTTPS all’indirizzo:
 
@@ -120,7 +120,6 @@ https://office.local
 - **Volumes**:  db_data, redis_data e nextcloud_data garantiscono persistenza dei dati.
 - **Accesso alla dashboard di Nextcloud**:  la prima volta seguirai il wizard di setup per creare l’admin
 
-## 6. Verifiche
 
 Per l'installazione di nextcloud, assicurarsi che il servizio mariadb sia nella stessa rete di nextcloud
 
