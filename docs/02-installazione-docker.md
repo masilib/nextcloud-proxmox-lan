@@ -51,7 +51,7 @@ docker-compose --version
 
 ---
 
-## 4️⃣ Creare la cartella per Docker Compose
+## 4️⃣ Creare la cartella per Docker Portainer
 
 ```bash
 mkdir -p portainer
