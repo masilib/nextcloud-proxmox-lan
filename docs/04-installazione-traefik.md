@@ -209,7 +209,7 @@ docker-compose up -d
 ```yaml
 labels:
   - "traefik.enable=true"
-  - "traefik.http.routers.nextcloud.rule=Host(`nextcloud.ufficio.local`)"
+  - "traefik.http.routers.nextcloud.rule=Host(`ufficio.local`)"
   - "traefik.http.routers.nextcloud.entrypoints=websecure"
   - "traefik.http.routers.nextcloud.tls=true"
 ```
@@ -221,7 +221,7 @@ labels:
 ## 8️⃣ Aggiornare file hosts dei client LAN
 
 ```text
-192.168.1.80  nextcloud.ufficio.local
+192.168.1.80  ufficio.local
 192.168.1.80  traefik.local
 ```
 
@@ -240,7 +240,7 @@ labels:
 
 ## 🔒 Certificati TLS self-signed per domini locali
 
-Per far funzionare HTTPS sui domini locali (`traefik.local`, `nextcloud.local`, `collabora.local`) possiamo generare certificati TLS self-signed e usarli con Traefik.
+Per far funzionare HTTPS sui domini locali (`traefik.local`, `ufficio.local`, `collabora.local`) possiamo generare certificati TLS self-signed e usarli con Traefik.
 
 ---
 
@@ -292,9 +292,9 @@ openssl req -x509 -nodes -days 365 \
 
 openssl req -x509 -nodes -days 365 \
   -newkey rsa:2048 \
-  -keyout nextcloud.local.key \
-  -out nextcloud.local.crt \
-  -subj "/CN=nextcloud.local"
+  -keyout ufficio.local.key \
+  -out ufficio.local.crt \
+  -subj "/CN=ufficio.local"
 
 openssl req -x509 -nodes -days 365 \
   -newkey rsa:2048 \
@@ -316,8 +316,8 @@ Dovresti ottenere qualcosa come:
 ```
 -rw-r--r--  1 root root 1310 collabora.local.crt
 -rw-------  1 root root 1704 collabora.local.key
--rw-r--r--  1 root root 1310 nextcloud.local.crt
--rw-------  1 root root 1704 nextcloud.local.key
+-rw-r--r--  1 root root 1310 ufficio.local.crt
+-rw-------  1 root root 1704 ufficio.local.key
 -rw-r--r--  1 root root 1310 traefik.local.crt
 -rw-------  1 root root 1704 traefik.local.key
 ```
