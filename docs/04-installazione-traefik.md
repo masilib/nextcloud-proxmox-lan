@@ -134,8 +134,8 @@ tls:
       stores:
         - default
 
-    - certFile: "/certs/nextcloud.local.crt"
-      keyFile: "/certs/nextcloud.local.key"
+    - certFile: "/certs/ufficio.local.crt"
+      keyFile: "/certs/ufficio.local.key"
       stores:
         - default
 
