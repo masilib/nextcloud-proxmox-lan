@@ -108,7 +108,22 @@ networks:
     external: true
 ```
 
-## 5. Verifiche
+## 5. Avviare Nextcloud
+
+- Ricordarsi di creare il file .env con le password.
+- Avviare il docker
+
+```bash
+cd nextcloud
+docker-compose up -d
+```
+
+- Dashboard visibile su `https://ufficio.local:8080`  
+- Usa le credenziali impostate nelle labels per autenticarti
+
+---
+
+## 6. Verifiche
 
 Nextcloud sarà disponibile su HTTPS all’indirizzo:
 
