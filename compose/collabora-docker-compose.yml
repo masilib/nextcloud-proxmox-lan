@@ -1,36 +1,37 @@
 version: '3.8'
-
 services:
-  pihole:
-    container_name: pihole
-    image: pihole/pihole:latest
-    hostname: pihole
-    networks:
-      lanufficio:
-        ipv4_address: 172.23.0.100
-    ports:
-      - "192.168.1.80:53:53/tcp"
-      - "192.168.1.80:53:53/udp"
-      - "192.168.1.80:8089:80/tcp"
-      #- "192.168.1.80:443:443/tcp"
-    environment:
-      TZ: 'Europe/Rome'
-      WEBPASSWORD: '123456'  # Cambia questa password!
-      FTLCONF_LOCAL_IPV4: '192.168.1.80'
-      PIHOLE_DNS_: '8.8.8.8;1.1.1.1'
-      DNSSEC: 'false'
-      PIHOLE_INTERFACE: 'eth0'
-      DNSMASQ_LISTENING: 'all'
-    volumes:
-      - './pihole/etc-pihole:/etc/pihole'
-      - './pihole/etc-dnsmasq.d:/etc/dnsmasq.d'
-    cap_add:
-      - NET_ADMIN
+  collabora:
+    image: collabora/code:latest
+    container_name: collabora
     restart: unless-stopped
+    networks:
+      - lanufficio
     dns:
-      - 127.0.0.1
-      - 8.8.8.8
-
+      - 172.23.0.100
+    environment:
+      - domain=ufficio\\.local
+      - username=admin
+      - password=Ma08101993!
+      # Abilita SSL
+      - extra_params=--o:ssl.enable=false --o:ssl.termination=true --o:net.frame_ancestors=ufficio.local
+      - dictionaries=it_IT en_US
+    cap_add:
+      - MKNOD
+    labels:
+      - "traefik.enable=true"
+      # Router HTTPS
+      - "traefik.http.routers.collabora.rule=Host(`collabora.local`)"
+      - "traefik.http.routers.collabora.entrypoints=websecure"
+      - "traefik.http.routers.collabora.tls.certresolver=myresolver"
+      # Servizio
+      - "traefik.http.services.collabora.loadbalancer.server.port=9980"
+      - "traefik.http.services.collabora.loadbalancer.server.scheme=http"
+      # Middleware per headers (Collabora richiede X-Forwarded-Proto e X-Frame-Options)
+      - "traefik.http.middlewares.collabora-headers.headers.customrequestheaders.X-Forwarded-Proto=https"
+      - "traefik.http.middlewares.collabora-headers.headers.customresponseheaders.X-Frame-Options=SAMEORIGIN"
+      - "traefik.http.routers.collabora.middlewares=collabora-headers"
+      # Network Traefik
+      - "traefik.docker.network=lanufficio"
 networks:
   lanufficio:
     external: true
