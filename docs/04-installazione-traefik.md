@@ -347,4 +347,3 @@ docker-compose up -d
 - Puoi importare i `.crt` nei client LAN per evitare warning di “certificato non sicuro”  
 - Rinnova i certificati prima della scadenza (365 giorni per impostazione attuale)  
 - Questa soluzione è ottima per **LAN privata**; in produzione esterna conviene usare certificati validi Let’s Encrypt
-
