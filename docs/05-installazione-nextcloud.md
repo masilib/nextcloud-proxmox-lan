@@ -143,3 +143,9 @@ docker network inspect lanufficio   # deve esistere
 docker network disconnect lanufficio mariadb # per scollegare mariadb dalla rete
 docker network connect --ip 172.23.0.103 lanufficio mariadb #per collegarlo manualmente 
 ```
+
+Se si vogliono installare gli strumenti di diagnosi della rete:
+```bash
+apt update && apt install -y dnsutils 
+nslookup collabora.local
+```
