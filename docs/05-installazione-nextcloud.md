@@ -168,4 +168,3 @@ labels:
   - "traefik.http.routers.nextcloud.tls=true"
   - "traefik.http.services.nextcloud.loadbalancer.server.port=80"
   ```
-
