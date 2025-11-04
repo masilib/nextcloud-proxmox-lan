@@ -149,3 +149,23 @@ Se si vogliono installare gli strumenti di diagnosi della rete:
 apt update && apt install -y dnsutils 
 nslookup collabora.local
 ```
+Nota: i pacchetti installati spariscono al prossimo docker-compose up --force-recreate, perché non sono persistenti.
+
+## 6. Ottimizzazioni
+
+Per forzare nextcloud ad aprire solo pagine con il prefisso https aggiornare/aggiungere nel file config.php di nextcloud:
+```php
+'overwrite.cli.url' => 'https://ufficio.local',
+'overwriteprotocol' => 'https',
+'trusted_proxies' => ['172.23.0.3'],
+```
+
+Se necessario verificare che docker-compose di nextcloud le label di traefik siano le seguenti:
+```yaml
+labels:
+  - "traefik.http.routers.nextcloud.rule=Host(`ufficio.local`)"
+  - "traefik.http.routers.nextcloud.entrypoints=websecure"
+  - "traefik.http.routers.nextcloud.tls=true"
+  - "traefik.http.services.nextcloud.loadbalancer.server.port=80"
+  ```
+
