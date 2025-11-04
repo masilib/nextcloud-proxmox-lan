@@ -2,9 +2,7 @@
 
 In questo capitolo configuriamo **ElasticSearch** per cercare e analizzare enormi quantità di dati in modo estremamente rapido.
 È il "motore di ricerca", pensa a lui come a un "Google" privato per i dati della tua azienda.
-Elasticsearch eccelle nel trovare parole o frasi all'interno di grandi volumi di testo, gestendo anche errori di battitura, sinonimi e classificando i risultati per rilevanza.
-https://collabora.local
-
+E' il componente principale per abilitare la ricerca full-text su Nextcloud. Tuttavia, da sola non è sufficiente: è necessario installare anche un'app "provider" per l'estrazione del contenuto e un'app "platform" per l'indicizzazione.
 
 ---
 
@@ -18,134 +16,202 @@ Dopo averle installate, assicurati che siano entrambe attivate.
 
 ---
 
-## 2️⃣ Configura la Connessione
+## 2. Scarica e attiva i moduli
 
 - Vai nelle impostazioni di Amministrazione di Nextcloud: Impostazioni > Applicazioni > File e cerca "Full text search".
-
-```bash
-mkdir -p nextcloud
-cd nextcloud
-```
-
-Salva qui il `docker-compose.yml`, `.env`
+- Scarica Full text search
+- Scarica Full text search - Elasticsearch Platform
+- Scarica Full text search - Files : è un'estensione dell'app Full Text Search che permette di indicizzare il contenuto dei file degli utenti. È necessaria per abilitare la ricerca all'interno dei documenti
 
 ---
 
-## 3️⃣ File `docker-compose.yml` Traefik
+## 3 Creare la cartella per Docker elasticsearch
+```bash
+mkdir -p elasticsearch
+cd elasticsearch
+```
+
+---
+
+## 4. Creare il file `docker-compose.yml`
+
+```bash
+nano docker-compose.yml
+```
+
+Incolla dentro:
 ```yaml
-version: "3.9"
+version: "3.8"
 
 services:
-  nextcloud:
-    image: nextcloud:latest
-    container_name: nextcloud
-    restart: unless-stopped
-
-    #extra_hosts:
-    #  - "collabora.local:172.23.0.3"  # IP del container Collabora
-
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.11.0
+    container_name: elasticsearch
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+      - ES_JAVA_OPTS=-Xms512m -Xmx512m
+    ports:
+      - "9200:9200"
+    networks:
+      - lanufficio
     dns:
-      - 192.168.1.80
-    networks:
-      lanufficio:
-        ipv4_address: 172.23.0.102
-
-    depends_on:
-      - db
-      - redis
-
-    environment:
-      MYSQL_HOST: db
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-      MYSQL_DATABASE: nextcloud
-      MYSQL_USER: nextcloud
-      NEXTCLOUD_ADMIN_USER: ${NC_ADMIN}
-      NEXTCLOUD_ADMIN_PASSWORD: ${NC_PASSWORD}
-      REDIS_HOST: redis
-
+      - 172.23.0.100
     volumes:
-      - ./nextcloud/html:/var/www/html
-      - ./docker-entrypoint-hooks.d:/docker-entrypoint-hooks.d
+      - es_data:/usr/share/elasticsearch/data
 
-
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.nextcloud.rule=Host(`ufficio.local`)"
-      - "traefik.http.routers.nextcloud.entrypoints=websecure"
-      - "traefik.http.routers.nextcloud.tls=true"
-      - "traefik.docker.network=lanufficio"
-      - "traefik.http.routers.nextcloud.tls.certresolver=myresolver"
-      - "traefik.http.services.nextcloud.loadbalancer.server.port=80"
-  
-  db:
-    image: mariadb:11
-    container_name: mariadb
-    restart: unless-stopped
-
-    networks:
-      lanufficio:
-        ipv4_address: 172.23.0.103
-
-    environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT}
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-      MYSQL_DATABASE: nextcloud
-      MYSQL_USER: nextcloud
-      TZ: Europe/Rome
-
-    command: --transaction-isolation=READ-COMMITTED --innodb_read_only_compressed=OFF
-
-    volumes:
-      - ./database:/var/lib/mysql
-
-  redis:
-    image: redis:alpine
-    container_name: redis
-    restart: unless-stopped
-    networks:
-      lanufficio:
-        ipv4_address: 172.23.0.104
-
-    environment:
-      TZ: Europe/Rome
+volumes:
+  es_data:
 
 networks:
   lanufficio:
     external: true
 ```
 
-## 5. Avviare Nextcloud
+---
 
-- Ricordarsi di creare il file .env con le password.
-- Avviare il docker
+## 5. Avviare i container
 
 ```bash
-cd nextcloud
 docker-compose up -d
 ```
 
-- Dashboard visibile su `https://ufficio.local:8080`  
-- Usa le credenziali impostate nelle labels per autenticarti
+---
+
+## 6. Verifica
+
+Apri il browser su:
+
+```
+https://<IP_CONTAINER>:9200
+```
+- Dovresti vedere lo schema del tipo { "name", "cluster_name", ..... }
 
 ---
 
-## 6. Verifiche
+## 7. Configura la ricerca
 
-Nextcloud sarà disponibile su HTTPS all’indirizzo:
+- Vai nelle impostazioni di Amministrazione di Nextcloud: Impostazioni di amministrazione 
+- Selezionare il modulo Full text search (Ricerca del testo integrale in italiano)
+- In 'Generale' selezionare come piattaforma di ricerca 'Elasticsearch'
+
+---
+
+## 8. Comandi utili per l'indicizzazione
+
+| Funzione | Comando |
+|----------|-------------------|
+| Avvia indicizzazione completa | occ fulltextsearch:index |
+| Stato dei documenti | occ fulltextsearch:document:status |
+| Verifica configurazione | occ fulltextsearch:check |
+| Test ricerca | occ fulltextsearch:test "testo da cercare" |
+| Resetta tutto | occ fulltextsearch:reset |
+
+---
 
 ```bash
-https://office.local
+docker exec -u www-data nextcloud php occ fulltextsearch:check
 ```
-- **MariaDB**:  cambia le password di default (supersecret e nextsecret) per sicurezza.
-- **Redis**:  non richiede password interna, ma può essere configurata se necessario.
-- **Volumes**:  db_data, redis_data e nextcloud_data garantiscono persistenza dei dati.
-- **Accesso alla dashboard di Nextcloud**:  la prima volta seguirai il wizard di setup per creare l’admin
+
+---
+
+## 9. Miglioriamo la ricerca
+
+- Analyzer Italiano : migliora ricerca di testi in italiano (stemming: cane → trova anche cani)
+- OCR PDF (se vuoi indicizzare PDF scannerizzati) : permette di cercare nel contenuto delle immagini
+- Avviare la prima indicizzazione completa
+- Live indexing
 
 
-Per l'installazione di nextcloud, assicurarsi che il servizio mariadb sia nella stessa rete di nextcloud
+- **Dentro al container elasticsearch**
 
 ```bash
-docker network inspect lanufficio   # deve esistere
-docker network disconnect lanufficio mariadb # per scollegare mariadb dalla rete
-docker network connect --ip 172.23.0.103 lanufficio mariadb #per collegarlo manualmente 
-``` 
+docker exec -it elasticsearch bin/elasticsearch-plugin install analysis-italian
+docker restart elasticsearch
+docker exec -u www-data nextcloud php occ fulltextsearch:configure '{"analyzer_tokenizer": "italian"}'
+
+```
+
+- **Abilitiamo OCR dei PDF (Opzionale ma Consigliato)**
+Installazione Tesseract OCR (lingua italiana):
+
+```bash
+docker exec nextcloud apt update
+docker exec nextcloud apt install -y tesseract-ocr tesseract-ocr-ita
+```
+
+Abilitiamo OCR nei file scannerizzati:
+
+```bash
+docker exec -u www-data nextcloud php occ files_fulltextsearch:configure '{"pdf_ocr": true}'
+```
+
+- **Indicizzazione iniziale (deve essere fatta almeno una volta!))**
+```bash
+docker exec -u www-data nextcloud php occ fulltextsearch:index
+```
+- **Live indexing**
+Per evitare che gli indici restino fermi, aggiungiamo anche la live indexing:
+
+```bash
+docker exec -u www-data nextcloud php occ fulltextsearch:live
+```
+
+---
+
+## 10. Settare un job automatico graduale per evitare carico CPU
+Mettiamo in sesto un job che indicizza pian piano, senza uccidere la CPU del tuo server.
+L’idea è indicizzare un piccolo numero di documenti per volta ogni tot minuti.
+
+- **Impostiamo batch ridotto in Nextcloud**
+Tu puoi scegliere quante unità, io ti propongo 20:
+
+```bash
+docker exec -u www-data nextcloud php occ fulltextsearch:configure '{"collection_indexing_list": 20}'
+```
+
+
+- **Imposta (in modo permanente) nano come editor predefinito (facoltativo)**
+Esegui questo comando sulla tua macchina:
+
+```bash
+echo 'export EDITOR=nano' >> ~/.bashrc
+```
+
+Poi ricarica la configurazione:
+
+```bash
+source ~/.bashrc
+```
+
+Impostazione anche per root (se usi sudo su)
+```bash
+echo 'export EDITOR=nano' >> /root/.bashrc
+source /root/.bashrc
+```
+
+Verifica
+```bash
+echo $EDITOR
+```
+
+- **Creiamo un cron job in Host (Proxmox)**
+Apri crontab:
+```bash
+crontab -e
+```
+Inserisci questa riga:
+
+```bash
+*/10 * * * * docker exec -u www-data nextcloud php occ fulltextsearch:index --quiet
+```
+Ogni 10 minuti indicizza solo i nuovi/aggiornati
+--quiet evita spam di output
+Salva con:
+- CTRL + O → Invio per confermare
+- CTRL + X per uscire
+
+
+## 11. Suggerimenti
+Attivare un log dedicato per controllare se qualcosa rallenta
+Fare tuning delle risorse elasticsearch (RAM, JVM)
