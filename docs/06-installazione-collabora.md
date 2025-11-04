@@ -1,6 +1,9 @@
-# Nextcloud + MariaDB + Redis
+# Collabora per Nextcloud
 
-In questo capitolo configuriamo **Nextcloud** con **MariaDB** come database e **Redis** per caching e gestione delle sessioni, il tutto in **Docker** su rete locale `lanufficio` con Traefik che gestisce il TLS.
+In questo capitolo configuriamo **Collabora** per caching e gestione delle sessioni, il tutto in **Docker** su rete locale `lanufficio` con Traefik che gestisce il TLS.
+https://collabora.local
+
+Assicurati che Traefik abbia o possa generare il certificato per collabora.local. Se usi un'autorità certificativa locale (come mkcert), genera anche il certificato per Collabora.
 
 ---
 
@@ -142,4 +145,4 @@ Per l'installazione di nextcloud, assicurarsi che il servizio mariadb sia nella 
 docker network inspect lanufficio   # deve esistere
 docker network disconnect lanufficio mariadb # per scollegare mariadb dalla rete
 docker network connect --ip 172.23.0.103 lanufficio mariadb #per collegarlo manualmente 
-```
+``` 
