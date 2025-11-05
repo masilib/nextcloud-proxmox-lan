@@ -128,24 +128,24 @@ providers:
 ### 🔐 File `dynamic/certs.yml` – Associazione domini ↔ certificati
 
 Questo file dice a Traefik **quale certificato deve usare per ogni dominio locale**:
+➡️ Esempio file docker-compose.yml pronto da usare:
+[compose/certs](../compose/certs.yml)
 
 ```yaml
 tls:
   certificates:
-    - certFile: "/certs/traefik.local.crt"
-      keyFile: "/certs/traefik.local.key"
-      stores:
-        - default
+    - certFile: /certs/ufficio.local.crt
+      keyFile: /certs/ufficio.local.key
+    - certFile: /certs/collabora.local.crt
+      keyFile: /certs/collabora.local.key
+    - certFile: /certs/traefik.local.crt
+      keyFile: /certs/traefik.local.key
 
-    - certFile: "/certs/ufficio.local.crt"
-      keyFile: "/certs/ufficio.local.key"
-      stores:
-        - default
-
-    - certFile: "/certs/collabora.local.crt"
-      keyFile: "/certs/collabora.local.key"
-      stores:
-        - default
+  stores:
+    default:
+      defaultCertificate:
+        certFile: /certs/ufficio.local.crt
+        keyFile: /certs/ufficio.local.key
 ```
 
 📌 Ogni entry:
