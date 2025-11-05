@@ -3,6 +3,7 @@
 In questo capitolo configuriamo **Collabora**. 
 
 Il modulo Collabora per Nextcloud (chiamato anche Collabora Online o Nextcloud Office) è l’integrazione tra Nextcloud e Collabora Online, una suite di office collaborativo basata su LibreOffice.
+
 Serve per creare, modificare e collaborare in tempo reale su documenti di testo, fogli di calcolo e presentazioni direttamente all’interno dell’interfaccia web di Nextcloud, senza bisogno di scaricare i file.
 https://collabora.local
 
@@ -41,82 +42,41 @@ cd collabora
 
 ## 3️⃣ File `docker-compose.yml` Collabora
 ```yaml
-version: "3.9"
-
+version: '3.8'
 services:
-  nextcloud:
-    image: nextcloud:latest
-    container_name: nextcloud
+  collabora:
+    image: collabora/code:latest
+    container_name: collabora
     restart: unless-stopped
-
-    #extra_hosts:
-    #  - "collabora.local:172.23.0.3"  # IP del container Collabora
-
-    dns:
-      - 192.168.1.80
     networks:
-      lanufficio:
-        ipv4_address: 172.23.0.102
-
-    depends_on:
-      - db
-      - redis
-
+      - lanufficio
+    dns:
+      - 172.23.0.100
     environment:
-      MYSQL_HOST: db
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-      MYSQL_DATABASE: nextcloud
-      MYSQL_USER: nextcloud
-      NEXTCLOUD_ADMIN_USER: ${NC_ADMIN}
-      NEXTCLOUD_ADMIN_PASSWORD: ${NC_PASSWORD}
-      REDIS_HOST: redis
-
-    volumes:
-      - ./nextcloud/html:/var/www/html
-      - ./docker-entrypoint-hooks.d:/docker-entrypoint-hooks.d
-
-
+      - domain=ufficio\\.local
+      - username=admin
+      - password=laTuaPassword
+      # Abilita SSL
+      - extra_params=--o:ssl.enable=false --o:ssl.termination=true --o:net.frame_ancestors=ufficio.local
+      - dictionaries=it_IT en_US
+    cap_add: 
+      - MKNOD
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.nextcloud.rule=Host(`ufficio.local`)"
-      - "traefik.http.routers.nextcloud.entrypoints=websecure"
-      - "traefik.http.routers.nextcloud.tls=true"
+      # Router HTTPS
+      - "traefik.http.routers.collabora.rule=Host(`collabora.local`)"
+      - "traefik.http.routers.collabora.entrypoints=websecure"
+      # - "traefik.http.routers.collabora.tls.certresolver=myresolver" per certificati tipo Let's Encrypt
+      - "traefik.http.routers.collabora.tls=true"
+      # Servizio
+      - "traefik.http.services.collabora.loadbalancer.server.port=9980"
+      - "traefik.http.services.collabora.loadbalancer.server.scheme=http"
+      # Middleware per headers (Collabora richiede X-Forwarded-Proto e X-Frame-Options)
+      - "traefik.http.middlewares.collabora-headers.headers.customrequestheaders.X-Forwarded-Proto=https"
+      - "traefik.http.middlewares.collabora-headers.headers.customresponseheaders.X-Frame-Options=SAMEORIGIN"
+      - "traefik.http.routers.collabora.middlewares=collabora-headers"
+      # Network Traefik
       - "traefik.docker.network=lanufficio"
-      - "traefik.http.routers.nextcloud.tls.certresolver=myresolver"
-      - "traefik.http.services.nextcloud.loadbalancer.server.port=80"
-  
-  db:
-    image: mariadb:11
-    container_name: mariadb
-    restart: unless-stopped
-
-    networks:
-      lanufficio:
-        ipv4_address: 172.23.0.103
-
-    environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT}
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-      MYSQL_DATABASE: nextcloud
-      MYSQL_USER: nextcloud
-      TZ: Europe/Rome
-
-    command: --transaction-isolation=READ-COMMITTED --innodb_read_only_compressed=OFF
-
-    volumes:
-      - ./database:/var/lib/mysql
-
-  redis:
-    image: redis:alpine
-    container_name: redis
-    restart: unless-stopped
-    networks:
-      lanufficio:
-        ipv4_address: 172.23.0.104
-
-    environment:
-      TZ: Europe/Rome
-
 networks:
   lanufficio:
     external: true
