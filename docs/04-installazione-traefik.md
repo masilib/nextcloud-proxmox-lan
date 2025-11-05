@@ -26,6 +26,9 @@ cd traefik
 ---
 
 ## 3️⃣ File `docker-compose.yml` Traefik
+➡️ Esempio file docker-compose.yml pronto da usare:
+[compose/traefik-docker-compose](../compose/traefik-docker-compose.yml)
+
 
 ```yaml
 version: '3.8'
