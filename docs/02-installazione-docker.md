@@ -135,3 +135,6 @@ docker-compose down
 ---
 
 ✅ Ora Docker + Portainer sono pronti all’uso su Alpine Linux.
+
+➡️ Esempio file LXC pronto da usare:
+[lxc/portainer-docker-compose](../lxc/portainer-docker-compose.yml)
