@@ -11,7 +11,7 @@ services:
     environment:
       - domain=ufficio\\.local
       - username=admin
-      - password=Ma08101993!
+      - password=laTuaPassword
       # Abilita SSL
       - extra_params=--o:ssl.enable=false --o:ssl.termination=true --o:net.frame_ancestors=ufficio.local
       - dictionaries=it_IT en_US
@@ -22,7 +22,8 @@ services:
       # Router HTTPS
       - "traefik.http.routers.collabora.rule=Host(`collabora.local`)"
       - "traefik.http.routers.collabora.entrypoints=websecure"
-      - "traefik.http.routers.collabora.tls.certresolver=myresolver"
+      # - "traefik.http.routers.collabora.tls.certresolver=myresolver" per certificati tipo Let's Encrypt
+      - "traefik.http.routers.collabora.tls=true"
       # Servizio
       - "traefik.http.services.collabora.loadbalancer.server.port=9980"
       - "traefik.http.services.collabora.loadbalancer.server.scheme=http"
