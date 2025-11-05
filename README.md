@@ -26,7 +26,7 @@ Questa repository contiene la documentazione e i file di esempio per configurare
 - [Traefik](docs/04-installazione-traefik.md) – Configurazione container Traefik  
 - [Nextcloud + MariaDB](docs/05-installazione-nextcloud.md) – Configurazione container Nextcloud con database MariaDB 
 - [Collabora](docs/06-installazione-collabora.md) – Configurazione container Collabora per le creazione/modifica di file office  
-
+- [ElasticSearch](docs/06-installazione-collabora.md) – Configurazione container Collabora per le creazione/modifica di file office  
 ---
 
 ## Obiettivo del progetto
