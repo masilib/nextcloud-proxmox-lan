@@ -108,6 +108,6 @@ https://collabora.local
 
 ## 7. Configurazione in nextcloud
 
-- **Installi l’app “Collabora Online” (richdocuments) dal Nextcloud App Store**.
-- **Configuri l’indirizzo del server Collabora (es. https://collabora.local).**
-- **Verifichi la connessione e abiliti l’editing dei file office.**
+- **Installa modulo su NextCloud** : nella sezione Applicazioni, abilitare l’app “Collabora Online” oppure "Nextcloud Office" dal Nextcloud App Store.
+- **Impostazioni di Amministrazione** : Andare nella sezione Ufficio e impostare URL (e porta) del server di Collabora Online (https://collabora.local).
+- **Disabilitare la verifica del certificato (non sicuro)**
