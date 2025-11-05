@@ -178,7 +178,7 @@ Esegui questo comando dall’host o dal container Nextcloud, puntando a Elastics
 ```bash
 curl -X PUT "http://172.23.0.4:9200/_index_template/nextcloud_italian_custom" \
   -H 'Content-Type: application/json' \
-  -d '{
+  -d {
   "index_patterns": ["indice-*"],
   "settings": {
     "number_of_shards": 1,
@@ -285,7 +285,7 @@ curl -X PUT "http://172.23.0.4:9200/_index_template/nextcloud_italian_custom" \
       }
     }
   }
-}'
+}
 
 
 ```
