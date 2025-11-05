@@ -129,7 +129,7 @@ providers:
 
 Questo file dice a Traefik **quale certificato deve usare per ogni dominio locale**:
 
-➡️ Esempio file docker-compose.yml pronto da usare:
+➡️ Esempio file certs.yml pronto da usare:
 [compose/certs](../compose/certs.yml)
 
 ```yaml
