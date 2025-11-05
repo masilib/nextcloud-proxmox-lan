@@ -217,5 +217,5 @@ Salva con:
 
 
 ## 11. Suggerimenti
-Attivare un log dedicato per controllare se qualcosa rallenta
-Fare tuning delle risorse elasticsearch (RAM, JVM)
+- Attivare un log dedicato per controllare se qualcosa rallenta
+- Fare tuning delle risorse elasticsearch (RAM, JVM)
