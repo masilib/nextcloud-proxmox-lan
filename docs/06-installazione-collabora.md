@@ -7,7 +7,7 @@ Il modulo Collabora per Nextcloud (chiamato anche Collabora Online o Nextcloud O
 Serve per creare, modificare e collaborare in tempo reale su documenti di testo, fogli di calcolo e presentazioni direttamente all’interno dell’interfaccia web di Nextcloud, senza bisogno di scaricare i file.
 https://collabora.local
 
-Assicurati che Traefik abbia o possa generare il certificato per collabora.local. Se usi un'autorità certificativa locale (come mkcert), genera anche il certificato per Collabora.
+
 
 ---
 
@@ -82,38 +82,32 @@ networks:
     external: true
 ```
 
-## 5. Avviare Nextcloud
+## 5. Avviare Collabora
 
-- Ricordarsi di creare il file .env con le password.
 - Avviare il docker
 
 ```bash
-cd nextcloud
+cd collabora
 docker-compose up -d
 ```
 
-- Dashboard visibile su `https://ufficio.local:8080`  
-- Usa le credenziali impostate nelle labels per autenticarti
+- Dashboard visibile su `https://collabora.local`  
+- Assicurati che Traefik abbia o possa generare il certificato per collabora.local. Se usi un'autorità certificativa locale (come mkcert), genera anche il certificato per Collabora.
 
 ---
 
 ## 6. Verifiche
 
-Nextcloud sarà disponibile su HTTPS all’indirizzo:
+Collabora sarà disponibile su HTTPS all’indirizzo:
 
 ```bash
-https://office.local
+https://collabora.local
 ```
-- **MariaDB**:  cambia le password di default (supersecret e nextsecret) per sicurezza.
-- **Redis**:  non richiede password interna, ma può essere configurata se necessario.
-- **Volumes**:  db_data, redis_data e nextcloud_data garantiscono persistenza dei dati.
-- **Accesso alla dashboard di Nextcloud**:  la prima volta seguirai il wizard di setup per creare l’admin
 
+---
 
-Per l'installazione di nextcloud, assicurarsi che il servizio mariadb sia nella stessa rete di nextcloud
+## 7. Configurazione in nextcloud
 
-```bash
-docker network inspect lanufficio   # deve esistere
-docker network disconnect lanufficio mariadb # per scollegare mariadb dalla rete
-docker network connect --ip 172.23.0.103 lanufficio mariadb #per collegarlo manualmente 
-``` 
+- **Installi l’app “Collabora Online” (richdocuments) dal Nextcloud App Store**.
+- **Configuri l’indirizzo del server Collabora (es. https://collabora.local).**
+- **Verifichi la connessione e abiliti l’editing dei file office.**
