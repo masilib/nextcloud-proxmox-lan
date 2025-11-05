@@ -25,7 +25,7 @@ Salva qui il `docker-compose.yml`, `.env`
 
 ---
 
-## 3️⃣ File `docker-compose.yml` Traefik
+## 3️⃣ File `docker-compose.yml` Nextcloud
 
 ➡️ Esempio file docker-compose.yml pronto da usare:
 [compose/nextcloud-docker-compose](../compose/nextcloud-docker-compose.yml)
