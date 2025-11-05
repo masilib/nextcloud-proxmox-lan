@@ -36,6 +36,9 @@ cd elasticsearch
 
 ## 4. Creare il file `docker-compose.yml`
 
+➡️ Esempio file docker-compose.yml pronto da usare:
+[compose/elasticsearch-docker-compose](../compose/elasticsearch-docker-compose.yml)
+
 ```bash
 nano docker-compose.yml
 ```
