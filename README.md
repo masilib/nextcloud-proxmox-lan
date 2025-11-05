@@ -9,7 +9,7 @@
 
 **Una soluzione completa e sicura per il tuo cloud personale in LAN**
 
-[📖 Documentazione](#Documentazione) • [🚀 Quick Start](#quick-start) • [✨ Caratteristiche](#caratteristiche) • [🤝 Contribuire](#contribuire)
+[📖 Documentazione](#documentazione) • [🚀 Quick Start](#quick-start) • [✨ Caratteristiche](#caratteristiche) • [🤝 Contribuire](#contribuire)
 
 </div>
 
@@ -55,7 +55,7 @@ Questa repository fornisce una guida completa e dettagliata per implementare un 
 
 ---
 
-## 📖 Documentazione
+## Documentazione
 
 La documentazione è organizzata in moduli progressivi per una configurazione guidata:
 
