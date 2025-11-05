@@ -111,3 +111,11 @@ https://collabora.local
 - **Installa modulo su NextCloud** : nella sezione Applicazioni, abilitare l’app “Collabora Online” oppure "Nextcloud Office" dal Nextcloud App Store.
 - **Impostazioni di Amministrazione** : Andare nella sezione Ufficio e impostare URL (e porta) del server di Collabora Online (https://collabora.local).
 - **Disabilitare la verifica del certificato (non sicuro)**
+
+---
+
+## 8. Note
+
+Per evitare problemi con certificati installati sui browser si consiglia di aprire almeno una volta la pagina [https](https://collabora.local/)
+Dovrebbe comparire un messaggio di 'OK'.
+Da questo momento in poi il browser può essere utilizzato per creare/modificare nuovi documenti direttamente da nextcloud. 
