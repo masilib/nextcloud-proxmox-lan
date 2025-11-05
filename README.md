@@ -112,7 +112,7 @@ nextcloud-proxmox-lan/
 │   ├── 06-installazione-collabora.md
 │   └── 07-installazione-elasticsearch.md
 ├── 📂 lxc/                               # Configurazioni LXC
-│   └── example.conf
+│   └── nextcloud-server.conf
 ├── 📂 compose/                           # Docker Compose files
 │   ├── nextcloud.yml
 │   ├── traefik.yml
