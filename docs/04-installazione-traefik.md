@@ -10,7 +10,7 @@ Questa guida mostra come installare Traefik come reverse proxy in Docker per ges
 - **HTTPS centralizzato**: gestione certificati SSL (ACME / self-signed)
 - **Routing dinamico**: rileva automaticamente i container con le label Docker
 - **Dashboard di monitoraggio**: permette di vedere lo stato dei router e dei container
-- **Gestione domini locali**: puoi usare nomi come `nextcloud.ufficio.local` senza modificare ogni container
+- **Gestione domini locali**: puoi usare nomi come `ufficio.local` senza modificare ogni container
 
 ---
 
