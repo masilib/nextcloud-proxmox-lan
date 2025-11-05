@@ -1,0 +1,38 @@
+version: '3.8'
+services:
+  collabora:
+    image: collabora/code:latest
+    container_name: collabora
+    restart: unless-stopped
+    networks:
+      - lanufficio
+    dns:
+      - 172.23.0.100
+    environment:
+      - domain=ufficio\\.local
+      - username=admin
+      - password=laTuaPassword
+      # Abilita SSL
+      - extra_params=--o:ssl.enable=false --o:ssl.termination=true --o:net.frame_ancestors=ufficio.local
+      - dictionaries=it_IT en_US
+    cap_add: 
+      - MKNOD
+    labels:
+      - "traefik.enable=true"
+      # Router HTTPS
+      - "traefik.http.routers.collabora.rule=Host(`collabora.local`)"
+      - "traefik.http.routers.collabora.entrypoints=websecure"
+      # - "traefik.http.routers.collabora.tls.certresolver=myresolver" per certificati tipo Let's Encrypt
+      - "traefik.http.routers.collabora.tls=true"
+      # Servizio
+      - "traefik.http.services.collabora.loadbalancer.server.port=9980"
+      - "traefik.http.services.collabora.loadbalancer.server.scheme=http"
+      # Middleware per headers (Collabora richiede X-Forwarded-Proto e X-Frame-Options)
+      - "traefik.http.middlewares.collabora-headers.headers.customrequestheaders.X-Forwarded-Proto=https"
+      - "traefik.http.middlewares.collabora-headers.headers.customresponseheaders.X-Frame-Options=SAMEORIGIN"
+      - "traefik.http.routers.collabora.middlewares=collabora-headers"
+      # Network Traefik
+      - "traefik.docker.network=lanufficio"
+networks:
+  lanufficio:
+    external: true
