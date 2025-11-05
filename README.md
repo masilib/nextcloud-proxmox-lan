@@ -117,6 +117,8 @@ nextcloud-proxmox-lan/
 │   ├── nextcloud.yml
 │   ├── traefik.yml
 │   ├── collabora.yml
+│   │── pihole.yml
+│   │── portainer.yml
 │   └── elasticsearch.yml
 └── 📂 scripts/                           # Script di utilità
 
