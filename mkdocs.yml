@@ -5,4 +5,8 @@ nav:
   - Home: index.md
   - Container: 01-creazione-container.md
   - Docker: 02-installazione-docker.md
-  - Nextcloud: 03-installazione-nextcloud.md
+  - PiHole: 03-installazione-pihole.md
+  - Traefik: 04-installazione-traefik.md
+  - Nextcloud: 05-installazione-nextcloud.md
+  - Collabora: 06-installazione-collabora.md
+  - ElasticSearch : 07-installazione-elasticsearch.md
