@@ -1,34 +1,44 @@
 # Collabora per Nextcloud
 
-In questo capitolo configuriamo **Collabora** per caching e gestione delle sessioni, il tutto in **Docker** su rete locale `lanufficio` con Traefik che gestisce il TLS.
+In questo capitolo configuriamo **Collabora**.
+Il modulo Collabora per Nextcloud (chiamato anche Collabora Online o Nextcloud Office) è l’integrazione tra Nextcloud e Collabora Online, una suite di office collaborativo basata su LibreOffice.
+Serve per creare, modificare e collaborare in tempo reale su documenti di testo, fogli di calcolo e presentazioni direttamente all’interno dell’interfaccia web di Nextcloud, senza bisogno di scaricare i file.
 https://collabora.local
 
 Assicurati che Traefik abbia o possa generare il certificato per collabora.local. Se usi un'autorità certificativa locale (come mkcert), genera anche il certificato per Collabora.
 
 ---
 
-## 1. Motivazioni
+## 1. Come funziona
 
-- **Nextcloud**: soluzione cloud self-hosted per file, calendario, contatti e collaborazioni.  
-- **MariaDB**: database relazionale per Nextcloud.  
-- **Redis**: migliora le prestazioni grazie al caching e alla gestione delle sessioni.  
+- **Collabora Online**: è un’applicazione server (derivata da LibreOffice Online) che elabora i documenti.
+- **Collabora Online Connector**: in Nextcloud fa da ponte tra i due, consentendo l’editing in browser. 
 
-Docker ci permette di avere isolamento, aggiornamenti semplici e gestione centralizzata dei servizi.
 
 ---
+
+## 2. Funzionalità principali
+
+- **Editing collaborativo in tempo reale**: più utenti possono scrivere contemporaneamente e vedere le modifiche live.
+- **Compatibilità con i formati Microsoft Office**: (.docx, .xlsx, .pptx) e LibreOffice/OpenDocument (.odt, .ods, .odp). 
+- **Commenti e suggerimenti**: (solo visualizzazione, modifica, commento, ecc.). 
+- **Anteprima e visualizzazione diretta**: dei documenti in Nextcloud Files. 
+- **Integrazione con Nextcloud Talk**: collaborazione e chat mentre si lavora su un documento. 
+- **Supporto per modelli**: (template) personalizzati. 
 
 ## 2️⃣ Cartella di lavoro
 
 ```bash
-mkdir -p nextcloud
-cd nextcloud
+mkdir -p collabora
+cd collabora
 ```
 
-Salva qui il `docker-compose.yml`, `.env`
+➡️ Esempio file docker-compose.yml pronto da usare:
+[compose/collabora-docker-compose](../compose/collabora-docker-compose.yml)
 
 ---
 
-## 3️⃣ File `docker-compose.yml` Traefik
+## 3️⃣ File `docker-compose.yml` Collabora
 ```yaml
 version: "3.9"
 
