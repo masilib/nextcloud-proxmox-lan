@@ -15,7 +15,7 @@
 
 ---
 
-## 📋 Panoramica
+## Panoramica
 
 Questa repository fornisce una guida completa e dettagliata per implementare un server **Nextcloud** professionale nella tua rete locale (LAN), utilizzando le migliori pratiche di containerizzazione e orchestrazione.
 
@@ -31,7 +31,7 @@ Questa repository fornisce una guida completa e dettagliata per implementare un 
 
 ---
 
-## ✨ Caratteristiche
+## Caratteristiche
 
 ### 🔒 Sicurezza
 - ✅ Container LXC non privilegiato
@@ -71,7 +71,7 @@ La documentazione è organizzata in moduli progressivi per una configurazione gu
 
 ---
 
-## 🚀 Quick Start
+## Quick Start
 
 ### Prerequisiti
 
@@ -98,7 +98,7 @@ cd nextcloud-proxmox-lan
 
 ---
 
-## 📁 Struttura Repository
+## Struttura Repository
 
 ```
 nextcloud-proxmox-lan/
@@ -126,7 +126,7 @@ nextcloud-proxmox-lan/
 
 ---
 
-## 🎯 Obiettivi del Progetto
+## Obiettivi del Progetto
 
 ### Principali
 - 🏠 Creare un ambiente Nextcloud **completamente in LAN**, senza esposizione diretta a Internet
@@ -142,7 +142,7 @@ nextcloud-proxmox-lan/
 
 ---
 
-## 🤝 Contribuire
+## Contribuire
 
 I contributi sono benvenuti! Se vuoi migliorare la documentazione o aggiungere nuove funzionalità:
 
@@ -154,13 +154,13 @@ I contributi sono benvenuti! Se vuoi migliorare la documentazione o aggiungere n
 
 ---
 
-## 📝 Licenza
+## Licenza
 
 Questo progetto è distribuito sotto licenza MIT. Vedi il file `LICENSE` per maggiori dettagli.
 
 ---
 
-## 💡 Supporto
+## Supporto
 
 - 📧 Apri una [Issue](../../issues) per bug o richieste
 - 💬 Consulta le [Discussions](../../discussions) per domande generali
@@ -168,7 +168,7 @@ Questo progetto è distribuito sotto licenza MIT. Vedi il file `LICENSE` per mag
 
 ---
 
-## 🙏 Ringraziamenti
+## Ringraziamenti
 
 Progetti e risorse che hanno ispirato questo lavoro:
 
