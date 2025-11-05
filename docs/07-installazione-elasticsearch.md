@@ -1,6 +1,7 @@
 # ElasticSearch per Nextcloud
 
 In questo capitolo configuriamo **ElasticSearch**.
+
 È il "motore di ricerca", pensa a lui come a un "Google" privato per i dati della tua azienda.
 E' il componente principale per abilitare la ricerca full-text su Nextcloud. Tuttavia, da sola non è sufficiente: è necessario installare anche un'app "provider" per l'estrazione del contenuto e un'app "platform" per l'indicizzazione.
 
