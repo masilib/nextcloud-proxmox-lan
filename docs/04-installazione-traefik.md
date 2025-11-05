@@ -154,7 +154,7 @@ tls:
 - `keyFile`: chiave privata
 - `stores: default`: usa lo store TLS principale
 
-✔️ In questo modo, quando un client richiede `https://nextcloud.local`,  
+✔️ In questo modo, quando un client richiede `https://ufficio.local`,  
 Traefik risponde con **il certificato corretto**.
 
 ---
