@@ -116,6 +116,6 @@ https://collabora.local
 
 ## 8. Note
 
-Per evitare problemi con certificati installati sui browser si consiglia di aprire almeno una volta la pagina [https](https://collabora.local/)
+Per evitare problemi con certificati installati sui browser si consiglia di aprire almeno una volta la pagina https://collabora.local
 Dovrebbe comparire un messaggio di 'OK'.
 Da questo momento in poi il browser può essere utilizzato per creare/modificare nuovi documenti direttamente da nextcloud. 
