@@ -9,7 +9,7 @@
 
 **Una soluzione completa e sicura per il tuo cloud personale in LAN**
 
-[📖 Documentazione](#documentazione) • [🚀 Quick Start](#quick-start) • [✨ Caratteristiche](#caratteristiche) • [🤝 Contribuire](#contribuire)
+[📖 Documentazione](#Documentazione) • [🚀 Quick Start](#quick-start) • [✨ Caratteristiche](#caratteristiche) • [🤝 Contribuire](#contribuire)
 
 </div>
 
