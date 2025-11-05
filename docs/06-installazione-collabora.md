@@ -1,6 +1,7 @@
 # Collabora per Nextcloud
 
 In questo capitolo configuriamo **Collabora**. 
+
 Il modulo Collabora per Nextcloud (chiamato anche Collabora Online o Nextcloud Office) è l’integrazione tra Nextcloud e Collabora Online, una suite di office collaborativo basata su LibreOffice.
 Serve per creare, modificare e collaborare in tempo reale su documenti di testo, fogli di calcolo e presentazioni direttamente all’interno dell’interfaccia web di Nextcloud, senza bisogno di scaricare i file.
 https://collabora.local
