@@ -171,11 +171,136 @@ docker exec -u www-data nextcloud php occ fulltextsearch:index
 
 - **Dentro al container elasticsearch**
 
-```bash
-docker exec -it elasticsearch bin/elasticsearch-plugin install analysis-italian
-docker restart elasticsearch
-docker exec -u www-data nextcloud php occ fulltextsearch:configure '{"analyzer_tokenizer": "italian"}'
+Creiamo un template con filtri e analyzer simili al linguaggio naturale italiano, minuscole, rimozione stopword e radici leggere.
 
+Esegui questo comando dall’host o dal container Nextcloud, puntando a Elasticsearch:
+
+```bash
+curl -X PUT "http://172.23.0.4:9200/_index_template/nextcloud_italian_custom" \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "index_patterns": ["indice-*"],
+  "settings": {
+    "number_of_shards": 1,
+    "number_of_replicas": 1,
+    "analysis": {
+      "filter": {
+        "italian_stop": {
+          "type": "stop",
+          "stopwords": "_italian_"
+        },
+        "italian_stemmer": {
+          "type": "stemmer",
+          "language": "light_italian"
+        },
+        "italian_elision": {
+          "type": "elision",
+          "articles": [
+            "c", "l", "all", "dall", "dell",
+            "nell", "sull", "coll", "pell",
+            "gl", "agl", "dagl", "degl", "negl",
+            "sugl", "un", "m", "t", "s", "v", "d"
+          ],
+          "articles_case": true
+        },
+        "italian_keywords": {
+          "type": "keyword_marker",
+          "keywords": []
+        }
+      },
+      "analyzer": {
+        "italian_analyzer": {
+          "type": "custom",
+          "tokenizer": "standard",
+          "filter": [
+            "italian_elision",
+            "lowercase",
+            "italian_stop",
+            "italian_keywords",
+            "italian_stemmer"
+          ]
+        },
+        "italian_search_analyzer": {
+          "type": "custom",
+          "tokenizer": "standard",
+          "filter": [
+            "italian_elision",
+            "lowercase",
+            "italian_stop",
+            "italian_stemmer"
+          ]
+        }
+      }
+    }
+  },
+  "mappings": {
+    "properties": {
+      "title": {
+        "type": "text",
+        "analyzer": "italian_analyzer",
+        "search_analyzer": "italian_search_analyzer",
+        "fields": {
+          "keyword": {
+            "type": "keyword",
+            "ignore_above": 256
+          }
+        }
+      },
+      "content": {
+        "type": "text",
+        "analyzer": "italian_analyzer",
+        "search_analyzer": "italian_search_analyzer"
+      },
+      "filename": {
+        "type": "text",
+        "analyzer": "italian_analyzer",
+        "search_analyzer": "italian_search_analyzer",
+        "fields": {
+          "keyword": {
+            "type": "keyword",
+            "ignore_above": 512
+          }
+        }
+      },
+      "path": {
+        "type": "keyword"
+      },
+      "mimetype": {
+        "type": "keyword"
+      },
+      "size": {
+        "type": "long"
+      },
+      "owner": {
+        "type": "keyword"
+      },
+      "tags": {
+        "type": "keyword"
+      },
+      "modified": {
+        "type": "date"
+      },
+      "created": {
+        "type": "date"
+      }
+    }
+  }
+}'
+
+
+```
+Poi resetta l’indice e ricrea
+```bash
+docker exec -it -u www-data nextcloud bash
+```
+Poi dentro la shell:
+```bash
+php occ fulltextsearch:reset
+```
+
+```pgsql
+y
+reset ALL ALL
 ```
 
 - **Abilitiamo OCR dei PDF (Opzionale ma Consigliato)**
