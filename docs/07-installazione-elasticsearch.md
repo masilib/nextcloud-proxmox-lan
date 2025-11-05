@@ -98,6 +98,15 @@ https://<IP_CONTAINER>:9200
 - Vai nelle impostazioni di Amministrazione di Nextcloud: Impostazioni di amministrazione 
 - Selezionare il modulo Full text search (Ricerca del testo integrale in italiano)
 - In 'Generale' selezionare come piattaforma di ricerca 'Elasticsearch'
+- A questo punto possiamo impostare direttamente da codice l'indirizzo del server:
+- Poi, per sicurezza, indica anche l’indice (puoi chiamarlo come vuoi, tipo nextcloud):
+
+```bash
+docker exec -u www-data nextcloud php occ fulltextsearch_elasticsearch:configure http://172.23.0.4:9200
+docker exec -u www-data nextcloud php occ fulltextsearch_elasticsearch:configure indice
+```
+
+
 
 ---
 
@@ -113,8 +122,41 @@ https://<IP_CONTAINER>:9200
 
 ---
 
+## 8.1 Crea indice manualmente
+
+Nextcloud, quando prova a indicizzare un documento, non crea automaticamente l’indice su Elasticsearch se questo non esiste già.
+Dipende dalla versione del connettore “FullTextSearch Elasticsearch”:
+
+- nelle versioni più vecchie creava l’indice in automatico,
+- ma nelle più recenti (dalla 8.x in poi), per motivi di sicurezza e compatibilità con cluster multi-tenant, il connettore pretende che l’indice esista già.
+
+Puoi automatizzare la creazione con un piccolo init script o volume persistente:
+
 ```bash
+curl -X PUT "http://172.23.0.4:9200/indice" \
+     -H 'Content-Type: application/json' \
+     -d '{
+       "settings": {
+         "number_of_shards": 1,
+         "number_of_replicas": 0
+       }
+     }'
+```
+
+Se va tutto bene Elasticsearch risponde con:
+
+```json
+{"acknowledged":true,"shards_acknowledged":true,"index":"indice"}
+```
+
+- Verifica che la configurazione sia aggiornata correttamente
+- Crea un indice manualmente
+- Lancia l’indicizzazione
+
+```bash
+docker exec -u www-data nextcloud php occ fulltextsearch:reset
 docker exec -u www-data nextcloud php occ fulltextsearch:check
+docker exec -u www-data nextcloud php occ fulltextsearch:index
 ```
 
 ---
