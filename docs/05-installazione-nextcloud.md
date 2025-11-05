@@ -124,7 +124,7 @@ cd nextcloud
 docker-compose up -d
 ```
 
-- Dashboard visibile su `https://ufficio.local:8080`  
+- Dashboard visibile su `https://ufficio.local`  
 - Usa le credenziali impostate nelle labels per autenticarti
 
 ---
