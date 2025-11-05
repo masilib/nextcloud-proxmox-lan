@@ -119,9 +119,7 @@ nextcloud-proxmox-lan/
 │   ├── collabora.yml
 │   └── elasticsearch.yml
 └── 📂 scripts/                           # Script di utilità
-    ├── backup.sh
-    ├── restore.sh
-    └── mount-storage.sh
+
 ```
 
 ---
