@@ -112,6 +112,10 @@ networks:
 
 ## 5. Avviare Nextcloud
 
+➡️ Esempio file .env pronto da usare:
+[compose/.env](../compose/.env)
+
+
 - Ricordarsi di creare il file .env con le password.
 - Avviare il docker
 
