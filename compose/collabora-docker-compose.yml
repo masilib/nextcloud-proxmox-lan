@@ -14,7 +14,7 @@ services:
       - password=laTuaPassword
       # Abilita SSL
       - extra_params=--o:ssl.enable=false --o:ssl.termination=true --o:net.frame_ancestors=ufficio.local
-      - dictionaries=it_IT
+      - dictionaries=it_IT en_US
     cap_add: 
       - MKNOD
     labels:
