@@ -54,7 +54,7 @@ apk update && apk upgrade
 ## Installazione utilità base
 
 ```bash
-apk add nano vim bash curl wget htop
+apk add nano vim bash curl wget htop rsync
 ```
 
 ✅ Pronto per installare Docker
