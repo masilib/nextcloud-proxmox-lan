@@ -59,7 +59,14 @@ services:
       NEXTCLOUD_ADMIN_PASSWORD: ${NC_PASSWORD}
       REDIS_HOST: redis
 
+    # se si vuole impostare un dominio 
+      NEXTCLOUD_TRUSTED_DOMAINS: ufficio.miodominio.it
+      OVERWRITEHOST: ufficio.miodominio.it.it
+      OVERWRITEPROTOCOL: https
+
     volumes:
+      # se si vuole usare una cartella dedicata per i dati (consigliato)
+      # - /mnt/nextcloud-data:/var/www/html
       - ./nextcloud/html:/var/www/html
       - ./docker-entrypoint-hooks.d:/docker-entrypoint-hooks.d
 
@@ -67,6 +74,7 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.nextcloud.rule=Host(`ufficio.local`)"
+      # - "traefik.http.routers.nextcloud.rule=Host(`ufficio.miodominio.it`)"
       - "traefik.http.routers.nextcloud.entrypoints=websecure"
       - "traefik.http.routers.nextcloud.tls=true"
       - "traefik.docker.network=lanufficio"
