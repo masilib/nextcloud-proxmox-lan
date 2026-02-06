@@ -23,6 +23,35 @@ cd nextcloud
 
 Salva qui il `docker-compose.yml`, `.env`
 
+Se si vogliono usare directory per dati persistenti:
+```bash
+# Directory dati Nextcloud (file utenti)
+mkdir -p /mnt/nextcloud-data
+
+# Directory database PostgreSQL
+mkdir -p /var/lib/mariadb/nextcloud
+
+# Directory Redis (opzionale, usa principalmente RAM)
+mkdir -p /var/lib/redis/nextcloud
+
+# impostare i permessi corretti
+# Nextcloud data - UID 33 è www-data (utente web server in container)
+chown -R 33:33 /mnt/nextcloud-data
+
+# MariaDB - UID 999 è postgres in container
+chown -R 999:999 /var/lib/mariadb/nextcloud
+
+# Redis - UID 999 è redis in container
+chown -R 999:999 /var/lib/redis/nextcloud
+
+# Directory progetto - tuo utente
+chown -R $USER:$USER ~/nextcloud-docker
+
+# Verifica permessi
+ls -ld /mnt/nextcloud-data
+ls -ld /var/lib/mariadb/nextcloud
+```
+
 ---
 
 ## 3️⃣ File `docker-compose.yml` Nextcloud
@@ -100,6 +129,8 @@ services:
     command: --transaction-isolation=READ-COMMITTED --innodb_read_only_compressed=OFF
 
     volumes:
+      # se si vuole usare una cartella dedicata per i dati (consigliato)
+      # - /mnt/mariadb-data:/var/lib/mysql
       - ./database:/var/lib/mysql
 
   redis:
