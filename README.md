@@ -63,7 +63,7 @@ La documentazione è organizzata in moduli progressivi per una configurazione gu
 |------|-----------|-------------|
 | 1️⃣ | [**Container LXC**](docs/01-creazione-container.md) | Creazione e configurazione del container Proxmox con Alpine Linux |
 | 2️⃣ | [**Docker + Portainer su Alpine Linux**](docs/02-installazione-docker.md) | Installazione ambiente Docker e interfaccia di gestione |
-| 2️⃣ .1️⃣ | [**Docker + Portainer su Ubuntu Server Linux**](docs/02.1-installazione-docker-ubuntu.md) | Installazione ambiente Docker su Ubuntu Server e interfaccia di gestione |
+| 2.1️⃣ .1️⃣ | [**Docker + Portainer su Ubuntu Server Linux**](docs/02.1-installazione-docker-ubuntu.md) | Installazione ambiente Docker su Ubuntu Server e interfaccia di gestione |
 | 3️⃣ | [**Pi-hole**](docs/03-installazione-pihole.md) | Setup DNS filtering per la rete locale |
 | 4️⃣ | [**Traefik**](docs/04-installazione-traefik.md) | Configurazione reverse proxy con routing automatico |
 | 5️⃣ | [**Nextcloud + MariaDB**](docs/05-installazione-nextcloud.md) | Installazione cloud storage con database |
