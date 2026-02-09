@@ -35,7 +35,7 @@ version: '3.8'
 
 services:
   traefik:
-    image: traefik:v2.10
+    image: traefik:latest
     container_name: traefik
     restart: unless-stopped
 
@@ -48,6 +48,13 @@ services:
       - "80:80"
       - "443:443"
       - "8080:8080"  # Dashboard Traefik (opzionale)
+
+    command:
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--providers.docker.endpoint=unix:///var/run/docker.sock"
+      - "--providers.file.directory=/dynamic"
+      - "--providers.file.watch=true"
 
     volumes:
       # Socket Docker per auto-discovery
