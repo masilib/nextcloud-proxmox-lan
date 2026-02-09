@@ -69,6 +69,7 @@ La documentazione è organizzata in moduli progressivi per una configurazione gu
 | 5️⃣ | [**Nextcloud + MariaDB**](docs/05-installazione-nextcloud.md) | Installazione cloud storage con database |
 | 6️⃣ | [**Collabora Online**](docs/06-installazione-collabora.md) | Integrazione editor documenti Office |
 | 7️⃣ | [**ElasticSearch**](docs/07-installazione-elasticsearch.md) | Motore di ricerca full-text per i contenuti |
+| 8 | [**Ottimizzazioni**](docs/08-ottimizzazioni-nextcloud.md) | Ottimizzazioni per nextcloud|
 
 ---
 
